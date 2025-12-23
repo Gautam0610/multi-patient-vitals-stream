@@ -27,8 +27,8 @@ This project simulates realistic vitals for hundreds of patients, publishes them
 ```
 multi-patient-vitals-stream/
 ├── data_generator/
-│   ├── patient.py       # Defines the Patient class for generating vitals
-│   └── vitals_generator.py  # Generates vitals for multiple patients
+│   ├── patient.py       # Defines the Patient class for generating vitals, including rolling averages
+│   └── vitals_generator.py  # Generates vitals for multiple patients, including raw and averaged vitals
 ├── kafka_producer/
 │   └── producer.py      # Publishes vitals to Kafka
 ├── event_simulator/
@@ -39,3 +39,8 @@ multi-patient-vitals-stream/
 ├── README.md
 └── requirements.txt
 ```
+
+## Changes
+
+*   Added per-patient rolling averages for heart rate and oxygen saturation.
+*   The system now publishes both raw and aggregated vitals to Kafka.
