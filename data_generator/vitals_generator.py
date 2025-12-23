@@ -11,7 +11,21 @@ class VitalsGenerator:
         return [Patient(i) for i in range(self.num_patients)]
 
     def generate_vitals_batch(self):
-        vitals_batch = [patient.generate_vitals() for patient in self.patients]
+        vitals_batch = []
+        for patient in self.patients:
+            raw_vitals = patient.generate_vitals()
+            avg_heart_rate, avg_oxygen_saturation = patient.calculate_rolling_averages()
+
+            # Include rolling averages in the vitals data
+            if avg_heart_rate is not None and avg_oxygen_saturation is not None:
+                averaged_vitals = {
+                    "patient_id": patient.patient_id,
+                    "avg_heart_rate": round(avg_heart_rate, 1),
+                    "avg_oxygen_saturation": round(avg_oxygen_saturation, 1),
+                }
+                vitals_batch.append({"raw_vitals": raw_vitals, "averaged_vitals": averaged_vitals})
+            else:
+                 vitals_batch.append({"raw_vitals": raw_vitals, "averaged_vitals": None})
         return vitals_batch
 
     def simulate_event(self):
